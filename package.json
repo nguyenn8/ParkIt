@@ -1,0 +1,26 @@
+{
+  "name": "cs361_park_it",
+  "version": "1.0.0",
+  "description": "Server for the ParkIt! web application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnsjo117/CS361_Park_it.git"
+  },
+  "author": "Kevin Neiger, Joseph Johns, Nancy Nguyen, Cooper Johnk, Augustus Loftin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnsjo117/CS361_Park_it/issues"
+  },
+  "homepage": "https://github.com/johnsjo117/CS361_Park_it#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "handlebars": "^4.7.3"
+  }
+}

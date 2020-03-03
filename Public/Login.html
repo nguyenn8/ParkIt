@@ -10,20 +10,15 @@
     </header>
     <main>
         <div class="login-input-container">
-            <div class="input-container">
-                <label for="username-text" class="login-input-text">Email</label>
-                <div class="login-input-element">
-                    <input type="text" name="username-text" id="username-text" class="login-input">
-                </div>
-            </div>
-            <div class="input-container">
-                <label for="password-text" class="login-input-text">Password</label>
-                <div class="login-input-element">
-                    <input type="password" name="password-text" id="password-text" class="login-input">
-                </div>
-            </div>
+            <form action="auth" method="POST">
+                <label for="username-text">Email</label>
+                <input type="text" name="username-text" id="username-text" class="login-input">
+                <label for="password-text">Password</label>
+                <input type="password" name="password-text" id="password-text" class="login-input">
+                <input type="submit">
+            </form>
         </div>
-        <button id="submit-button">Submit</button>
+        <!-- <button id="submit-button">Submit</button> -->
     </main>
   </body>
 </html>

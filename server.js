@@ -4,6 +4,7 @@ var express = require('express');
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
 var app = express();
+var session = require('express-session');
 
 app.engine('handlebars', exphbs({
   defaultLayout: 'main',
@@ -15,13 +16,64 @@ app.engine('handlebars', exphbs({
 
 app.set('view engine', 'handlebars');
 
-app.use(bodyParser.json());
+
 
 app.use(express.static('public'));
 
+app.use(session({
+  secret: 'janck',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
+
+//-----------Login
+
 app.get('/', function (req, res) {
+  //res.sendFile(path.join(__dirname + '/login.html'));
   res.status(200).render('login');
 });
+
+app.get('/success', function (req, res) {
+  if (req.session.loggedin){
+    res.status(200).render('success');
+  } else {
+    res.send('Please login');
+    res.end();
+  }
+});
+
+app.post('/auth', function (req, res){
+  var username = req.body.username;
+  var password = req.body.password;
+  console.log(req.body);
+  console.log(username);
+  console.log(password);
+  if (username != '' && password != '') {
+    loginData = require('./loginData');
+    found = false;
+    for(i = 0; i < loginData.length; i++){
+      if(username == loginData[i].username &&
+      password == loginData[i].password){
+        found = true;
+      }
+    }
+    if (found == true){
+      req.session.loggedin = true;
+      req.session.username = username;
+      res.redirect('/success');
+    } else {
+      res.send('Incorrect Username and/or Password');
+    }
+    res.end();
+  } else {
+   res.send('Enter a username and password');
+   res.end();
+  }
+});
+
+//------------Bug Reporting----------
 
 app.get('/report_bug', function (req, res) {
   res.status(200).render('bugReport');
@@ -30,7 +82,7 @@ app.get('/report_bug', function (req, res) {
 app.post('/report_bug/sendReport', function (req, res, next){
 
   var bugData = require('./bugData');
-  
+
   if (req.body && req.body.title && req.body.ticket && req.body.summary) {
     bugData.push({
       title: req.body.title,

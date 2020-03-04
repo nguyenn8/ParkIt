@@ -11,7 +11,7 @@ header{
     font-size: 60px;
 }
 body{
-    background-color: crimson;
+    background-color: grey;
 }
 main{
     display: flex;

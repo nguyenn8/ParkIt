@@ -46,7 +46,7 @@ form{
     font-size: 35px;
     font-weight: bold;
 }
-#submit-button{
+.user-button{
     border: 1px solid black;
     width:225px;
     height: 60px;
@@ -55,9 +55,28 @@ form{
     background-color: lightcoral;
 
 }
-#submit-button:hover{
+.user-button:hover{
     cursor: pointer;
     width: 250px;
     height: 70px;
     font-size: 45px;
+}
+
+#directory-container{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#directory-container button{
+    width: 500px;
+    height: 60px;
+    margin: 25px;
+    padding: 0px;
+}
+
+#directory-container button:hover{
+    width: 525px;
+    height: 70px;
 }

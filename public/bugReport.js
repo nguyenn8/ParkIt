@@ -26,7 +26,7 @@ function handleCancelClick (event) {
   if('click'){
       TextMaterial.value = "";
       issueBox.selectedIndex = 0;
-      
+
   }
 }
 
@@ -45,7 +45,7 @@ function handleButtonClick (event) {
     var newTicket = createTicket(10);
 
     var requestBody = JSON.stringify({
-      title: issueBox.selectedIndex,
+      title: issueBox.value,
       ticket: newTicket,
       summary: TextMaterial.value
     });

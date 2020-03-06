@@ -26,7 +26,6 @@ function handleCancelClick (event) {
   if('click'){
       TextMaterial.value = "";
       issueBox.selectedIndex = 0;
-
       
   }
 }
@@ -38,22 +37,22 @@ function handleButtonClick (event) {
   } else {
     alert("Thank you for sending a report. We will get back to you shortly.");
     //
-    
+
     var postRequest = new XMLHttpRequest();
     var requestURL = '/report_bug/sendReport';
     postRequest.open('POST', requestURL);
-    
+
     var newTicket = createTicket(10);
-    
+
     var requestBody = JSON.stringify({
       title: issueBox.selectedIndex,
       ticket: newTicket,
       summary: TextMaterial.value
     });
-    
+
     console.log('requestBody:', requestBody);
     postRequest.setRequestHeader('Content-Type', 'application/json');
-    
+
     postRequest.addEventListener('load', function (event) {
       if (event.target.status !== 200) {
         var responseBody = event.target.response;
@@ -65,7 +64,7 @@ function handleButtonClick (event) {
       }
     });
     postRequest.send(requestBody);
-  
+
     //
     TextMaterial.value = "";
     issueBox.selectedIndex = 0;

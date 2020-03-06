@@ -4,90 +4,70 @@ var express = require('express');
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
 var app = express();
-var session = require('express-session');
 
 var titleArray = [];
 
 app.engine('handlebars', exphbs({
   defaultLayout: 'main',
-  partialsDir  : [
-    //  path to your partials
+  partialsDir: [
     path.join(__dirname, 'views/partials'),
   ]
 }));
 
 app.set('view engine', 'handlebars');
 
-app.use(express.static('public'));
-
-app.use(session({
-  secret: 'janck',
-  resave: true,
-  saveUninitialized: true
-}));
-app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
-//-----------Login
+app.use(express.static('public'));
 
 app.get('/', function (req, res) {
   res.status(200).render('login');
 });
 
-app.get('/success', function (req, res) {
-  if (req.session.loggedin){
-    res.status(200).render('success');
-  } else {
-    res.send('Please login');
-    res.end();
-  }
-});
-
-app.post('/auth', function (req, res){
-  var username = req.body.username;
-  var password = req.body.password;
-  console.log(req.body);
-  console.log(username);
-  console.log(password);
-  if (username != '' && password != '') {
-    loginData = require('./loginData');
-    found = false;
-    for(i = 0; i < loginData.length; i++){
-      if(username == loginData[i].username &&
-      password == loginData[i].password){
-        found = true;
-      }
-    }
-    if (found == true){
-      req.session.loggedin = true;
-      req.session.username = username;
-      res.redirect('/success');
-    } else {
-      res.send('Incorrect Username and/or Password');
-    }
-    res.end();
-  } else {
-   res.send('Enter a username and password');
-   res.end();
-  }
-});
-
-//------------Bug Reporting----------
-
 app.get('/report_bug', function (req, res) {
   res.status(200).render('bugReport');
 });
 
+app.get('/search', function (req, res) {
+  res.status(200).render('search');
+});
+
+app.get('/search_query', function (req, res) {
+  res.status(200).render('search_query', {locs: titleArray});
+});
+
+app.post('/search_query', function (req, res, next){
+  titleArray = [];
+  var locationData = require('./searchLocations');
+  
+  if (req.body && req.body.longitude && req.body.latitude && req.body.max) {
+    var rawjson = fs.readFileSync( __dirname + '/searchLocations.json');
+    var locations = JSON.parse(rawjson);
+  } else {
+    res.status(400).send("Incomplete information, failed to write to server.");
+  }
+  
+ 
+  var y = 0;
+  for (var n = 0; n < locations.length; n++) {
+    if (is_in_radius(0 + (+locations[n]['longitude']), 0 + (+locations[n]['latitude']), req.body.longitude, req.body.latitude, 6371000, false) == true) {
+      console.log(locations[n]['title']);
+      titleArray[y] = {title: locations[n]['title']};
+      y = y + 1;
+    }
+  }
+  
+  res.status(200).render('search_query');
+});
+
 app.post('/report_bug/sendReport', function (req, res, next){
-
   var bugData = require('./bugData');
-
+  
   if (req.body && req.body.title && req.body.ticket && req.body.summary) {
     bugData.push({
       title: req.body.title,
       ticket: req.body.ticket,
       summary: req.body.summary
-      //index: bugData.length
     });
     fs.writeFile(
       __dirname + '/bugData.json',
@@ -105,49 +85,12 @@ app.post('/report_bug/sendReport', function (req, res, next){
   }
 })
 
-//----------Search-----------------
-
-app.get('/search', function (req, res) {
-  res.status(200).render('search');
-});
-
-app.get('/search_query', function (req, res) {
-  res.status(200).render('search_query', {locs: titleArray});
-});
-
-app.post('/search_query', function (req, res, next){
-  titleArray = [];
-  var locationData = require('./searchLocations');
-
-  if (req.body && req.body.longitude && req.body.latitude && req.body.max) {
-    var rawjson = fs.readFileSync( __dirname + '/searchLocations.json');
-    var locations = JSON.parse(rawjson);
-  } else {
-    res.status(400).send("Incomplete information, failed to write to server.");
-  }
-
-
-  var y = 0;
-  for (var n = 0; n < locations.length; n++) {
-    if (is_in_radius(0 + (+locations[n]['longitude']), 0 + (+locations[n]['latitude']), req.body.longitude, req.body.latitude, 6371000, false) == true) {
-      console.log(locations[n]['title']);
-      titleArray[y] = {title: locations[n]['title']};
-      y = y + 1;
-    }
-  }
-
-  res.status(200).render('search_query');
-});
-
-
-var port = process.env.PORT || 50505;
+var port = process.env.PORT || 50605;
 
 app.listen(port, function() {
   console.log('== Server is listening on port', port);
 });
 
-
-//----------Search Functions---------------
 function is_in_radius(from_theta, from_phi, to_theta, to_phi, max_distance, miles) {
     if (miles) {
         max_distance *= 1609;

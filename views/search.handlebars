@@ -1,0 +1,40 @@
+<head>
+    <meta charset="utf-8">
+    <title>Bug Report</title>
+    <!-- This 3rd-party stylesheet makes available the font families to be used for this page ("Roboto" and "Roboto Slab"). -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab:100" rel="stylesheet">
+    <!-- This 3rd-party stylesheet incorporates SVG icons from Font Awesome: http://fontawesome.com/ -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="mainSearch.css">
+
+    <script src="mainSearch.js" charset="utf-8" defer></script>
+</head>
+<body>
+    <header>
+        <h1 class="site-title"> <a href="#">Park It!</a> </h1>
+    </header>
+
+    <nav class="headerNav">
+        <a href="/">Home</a>
+        <a href="/search">Seach for Parking</a>
+        <a href="/report_bug">Bug Report</a>
+    </nav>
+
+    <main class="contents">
+        <h2>Find a parking spot</h2>
+        <div class="create-content">
+            <div class="input-container">
+                <label for="text-input-title">Longitude:</label>
+
+                <input type="number" id="longitude-text-input" min="-180" max="180" value="0" />
+            </div>
+            <div class="input-container">
+                <label for="text-input-title">Latitude:</label>
+
+                <input type="number" id="latitude-text-input" min="-90" max="90" value="0" />
+                <button id="search-button" class="search-button">Find parking</button>
+                <button id="search-cancel-button" class="cancel-button">Cancel</button>
+            </div>
+        </div>
+    </main>
+</body>

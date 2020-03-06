@@ -33,8 +33,11 @@ function handleCancelClick (event) {
 function handleButtonClick (event) {
   console.log(TextMaterial.value);
   if (TextMaterial.value == '' || TextMaterial.value == 0){
-    alert("Report is empty. Please write a report before submitting");
-  } else {
+    alert("Report is empty. Please write a report before submitting.");
+  } else if (issueBox.selectedIndex == 0){
+    alert("Report is Empty. Please select an Issue Type before submitting.")
+  }
+  else {
     alert("Thank you for sending a report. We will get back to you shortly.");
     //
 

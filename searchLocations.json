@@ -1,0 +1,57 @@
+[
+  {
+    "title": "place st.",
+    "longitude": "-90",
+    "latitude": "34"
+  },
+  {
+    "title": "place dr.",
+    "longitude": "-180",
+    "latitude": "78"
+  },
+  {
+    "title": "sydney opera house parking building",
+    "longitude": "167",
+    "latitude": "-35"
+  },
+  {
+    "title": "oregon state university parking lot A",
+    "longitude": "-122",
+    "latitude": "45"
+  },
+  {
+    "title": "statue of liberty information booth parking",
+    "longitude": "-75",
+    "latitude": "35"
+  },
+  {
+    "title": "computer store general parking",
+    "longitude": "-122.5",
+    "latitude": "45.2"
+  },
+  {
+    "title": "fred meyer's general parking",
+    "longitude": "-120",
+    "latitude": "43"
+  },
+  {
+    "title": "faraway dr.",
+    "longitude": "180",
+    "latitude": "78"
+  },
+  {
+    "title": "1st st.",
+    "longitude": "0",
+    "latitude": "0"
+  },
+  {
+    "title": "50th st.",
+    "longitude": "10",
+    "latitude": "10"
+  },
+  {
+    "title": "100th st.",
+    "longitude": "20",
+    "latitude": "20"
+  }
+]

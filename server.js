@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 var app = express();
 var session = require('express-session');
 
+var logindata = require("./loginData");
+
 var titleArray = [];
 
 app.engine('handlebars', exphbs({
@@ -139,6 +141,61 @@ app.post('/search_query', function (req, res, next){
 
   res.status(200).render('search_query');
 });
+
+app.get('/Create_Simple_Account', function (req, res, next) {
+    res.status(200).render("Create_Simple_Account");
+})
+
+app.post('/Create_A', function (req, res, next) {
+    if (req.body) {
+        var email = req.body.username;
+        var pass = req.body.password;
+        var repass = req.body.confirm_password;
+        if (email != '' && pass != '' && repass != '') {
+            if (pass == repass) {
+                var namefree = true;
+                for (var i = 0; i < logindata.length; i++){
+                    if (logindata[i].username == email) {
+                        namefree = false;
+                    }
+                }
+
+                if (namefree) {
+                    logindata.push({ "username": email, "password": pass });
+                    fs.writeFile(
+                        __dirname + '/loginData.json',
+                        JSON.stringify(logindata, null, 2),
+                        function (err) {
+                            if (!err) {
+                                res.status(200).send();
+                            } else {
+                                res.status(500).send("Failed to write data on server side.");
+                            }
+                        }
+                    );
+                }
+                else {
+                    //console.log("name not free");
+                    res.status(460).send();
+                }
+            }
+            else {
+                //console.log("pass not match");
+                //console.log(pass);
+                //console.log(repass);
+                res.status(461).send();
+            }
+        }
+        else {
+            //console.log("field empty");
+            res.status(462).send();
+        }
+    }
+    else {
+        //console.log("no body");
+        res.status(463).send();
+    }
+})
 
 
 var port = process.env.PORT || 50505;

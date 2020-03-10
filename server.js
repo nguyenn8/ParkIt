@@ -108,6 +108,43 @@ app.post('/report_bug/sendReport', function (req, res, next){
   }
 })
 
+//------------Add Vehicle----------
+
+app.get('/add_Vehicle', function (req, res) {
+  res.status(200).render('addVehicle');
+});
+
+app.post('/add_Vehicle/saveVehicle', function (req, res, next){
+
+  var allVehicles = require('./vehicles');
+
+  if (req.body && req.body.Username && req.body.Make && req.body.Model && req.body.Year && req.body.Plate) {
+    allVehicles.push({
+      Username: req.body.Username,
+      Make: req.body.Make,
+      Model: req.body.Model,
+      Year: req.body.Year,
+      Plate: req.body.Plate
+
+
+      //index: bugData.length
+    });
+    fs.writeFile(
+      __dirname + '/vehicles.json',
+      JSON.stringify(allVehicles, null, 2),
+      function (err){
+        if (!err){
+          res.status(200).send();
+        } else {
+          res.status(500).send("Failed to write data on server side.");
+        }
+      }
+    );
+  } else {
+    res.status(400).send("Incomplete information, failed to write to server.");
+  }
+})
+
 //----------Search-----------------
 
 app.get('/search', function (req, res) {
@@ -198,7 +235,7 @@ app.post('/Create_A', function (req, res, next) {
 })
 
 
-var port = process.env.PORT || 50505;
+var port = process.env.PORT || 50555;
 
 app.listen(port, function() {
   console.log('== Server is listening on port', port);

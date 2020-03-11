@@ -4,14 +4,14 @@ header{
     align-items: center;
     height: 200px;
     width: max;
-    background-color: darkred;
-    color: black;
+    background-color: rgb(0, 10, 100);
+    color: white;
 }
 .site-title{
     font-size: 60px;
 }
 body{
-    background-color: grey;
+    background-color: rgb(86, 85, 172);
 }
 main{
     display: flex;
@@ -52,7 +52,8 @@ form{
     height: 60px;
     font-size: 40px;
     border-radius: 15px;
-    background-color: lightcoral;
+    color: black;
+    background-color: rgb(90, 20, 255);
 
 }
 .user-button:hover{

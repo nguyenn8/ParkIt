@@ -80,3 +80,26 @@ form{
     width: 525px;
     height: 70px;
 }
+
+.login-create-account-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#login-button, #create-account-button{
+    margin-top: 250px;
+    margin-left: 50px;
+    margin-right: 50px;
+    width: 400px;
+    height: 100px;
+    font-size: 40px;
+}
+
+#login-button:hover, #create-account-button:hover{
+    cursor: pointer;
+    width: 425px;
+    height: 115px;
+    font-size: 42px;
+}

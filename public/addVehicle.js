@@ -1,7 +1,7 @@
 console.log("== Here I am!");
 
 
-var userBox = document.getElementById('post-username-input');
+//var userBox = document.getElementById('post-username-input');
 var makeBox = document.getElementById('post-make-input');
 var modelBox = document.getElementById('post-model-input');
 var yearBox = document.getElementById('post-year-input');
@@ -30,7 +30,7 @@ function handleCancelClick (event) {
 
 function handleButtonClick (event) {
 
-  if (userBox.value == "" || makeBox.value == "" || modelBox.value == ""
+  if (makeBox.value == "" || modelBox.value == ""
        || yearBox.value <= 0 || plateBox.value == ""){
     alert("Report is missing at least 1 entry. Please fill all boxes before submitting.")
   }
@@ -42,7 +42,6 @@ function handleButtonClick (event) {
     postRequest.open('POST', requestURL);
 
     var requestBody = JSON.stringify({
-      Username: userBox.value,
       Make: makeBox.value,
       Model: modelBox.value,
       Year: yearBox.value,

@@ -1,6 +1,6 @@
 // JavaScript source code
 
-console.log("hello world");
+//console.log("hello world");
 
 document.getElementById('MyForm').addEventListener('submit', (event) => {
     event.preventDefault();

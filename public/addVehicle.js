@@ -19,7 +19,7 @@ for (var i = 0; i < CancelButton.length; i++) {
 function handleCancelClick (event) {
   console.log("cancelled");
   if('click'){
-      userBox.value = "";
+    //  userBox.value = "";
       makeBox.value = "";
       modelBox.value = "";
       yearBox.value = 0;
@@ -64,7 +64,7 @@ function handleButtonClick (event) {
     postRequest.send(requestBody);
 
     //
-    userBox.value = "";
+  //  userBox.value = "";
     makeBox.value = "";
     modelBox.value = "";
     yearBox.value = 0;

@@ -10,6 +10,12 @@ var logindata = require("./loginData");
 
 var titleArray = [];
 
+//Custom status codes
+//460: Username taken
+//461: Password and Confirm Password dont match
+//462: One or more fields are not filled
+//463: No request body
+
 app.engine('handlebars', exphbs({
   defaultLayout: 'main',
   partialsDir  : [
@@ -33,15 +39,22 @@ app.use(bodyParser.json());
 //-----------Login
 
 app.get('/', function (req, res) {
-  res.status(200).render('login');
+  if (req.session.loggedin){
+    res.status(200).render('success');
+  } else {
+    res.status(200).render('frontPage');
+  }
 });
+
+app.get('/login', function (req, res) {
+  res.status(200).render('login');
+})
 
 app.get('/success', function (req, res) {
   if (req.session.loggedin){
     res.status(200).render('success');
   } else {
-    res.send('Please login');
-    res.end();
+    res.status(300).redirect('/');
   }
 });
 
@@ -66,19 +79,23 @@ app.post('/auth', function (req, res){
       req.session.username = username;
       res.redirect('/success');
     } else {
-      res.send('Incorrect Username and/or Password');
+      res.status(460).send();
     }
-    res.end();
+    //res.end();
   } else {
-   res.send('Enter a username and password');
-   res.end();
+   res.status(461).send();
+   //res.end();
   }
 });
 
 //------------Bug Reporting----------
 
 app.get('/report_bug', function (req, res) {
-  res.status(200).render('bugReport');
+  if (req.session.loggedin){
+    res.status(200).render('bugReport');
+  } else {
+    res.status(300).redirect('/');
+  }
 });
 
 app.post('/report_bug/sendReport', function (req, res, next){
@@ -89,7 +106,8 @@ app.post('/report_bug/sendReport', function (req, res, next){
     bugData.push({
       title: req.body.title,
       ticket: req.body.ticket,
-      summary: req.body.summary
+      summary: req.body.summary,
+      username: req.session.username
       //index: bugData.length
     });
     fs.writeFile(
@@ -111,16 +129,20 @@ app.post('/report_bug/sendReport', function (req, res, next){
 //------------Add Vehicle----------
 
 app.get('/add_Vehicle', function (req, res) {
-  res.status(200).render('addVehicle');
+  if(req.session.loggedin){
+    res.status(200).render('addVehicle');
+  } else {
+    res.status(300).redirect('/');
+  }
 });
 
 app.post('/add_Vehicle/saveVehicle', function (req, res, next){
 
   var allVehicles = require('./vehicles');
 
-  if (req.body && req.body.Username && req.body.Make && req.body.Model && req.body.Year && req.body.Plate) {
+  if (req.body && req.body.Make && req.body.Model && req.body.Year && req.body.Plate) {
     allVehicles.push({
-      Username: req.body.Username,
+      Username: req.session.username,
       Make: req.body.Make,
       Model: req.body.Model,
       Year: req.body.Year,
@@ -148,11 +170,19 @@ app.post('/add_Vehicle/saveVehicle', function (req, res, next){
 //----------Search-----------------
 
 app.get('/search', function (req, res) {
-  res.status(200).render('search');
+  if(req.session.loggedin){
+    res.status(200).render('search');
+  } else {
+    res.status(300).redirect('/');
+  }
 });
 
 app.get('/search_query', function (req, res) {
-  res.status(200).render('search_query', {locs: titleArray});
+  if(req.session.loggedin){
+    res.status(200).render('search_query', {locs: titleArray});
+  } else {
+    res.status(300).redirect('/');
+  }
 });
 
 app.post('/search_query', function (req, res, next){
@@ -178,6 +208,8 @@ app.post('/search_query', function (req, res, next){
 
   res.status(200).render('search_query');
 });
+
+//-----------Create a simple account ----------------
 
 app.get('/Create_Simple_Account', function (req, res, next) {
     res.status(200).render("Create_Simple_Account");
@@ -235,7 +267,7 @@ app.post('/Create_A', function (req, res, next) {
 })
 
 
-var port = process.env.PORT || 50555;
+var port = process.env.PORT || 50505;
 
 app.listen(port, function() {
   console.log('== Server is listening on port', port);

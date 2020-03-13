@@ -2,6 +2,7 @@
   <meta charset="utf-8">
   <title>ParkIt!</title>
   <link rel="stylesheet" href="/login.css" type="text/css">
+    <script src="login.js" charset="utf-8" defer></script>
 </head>
 <body>
   <header id="login-header">
@@ -9,7 +10,7 @@
   </header>
   <main>
       <div class="login-input-container">
-          <form action="auth" method="POST">
+          <form action="auth" method="POST" id="loginForm">
               <label for="username" class="login-label">Email</label>
               <input type="text" name="username" id="username" class="login-input">
               <label for="password" class="login-label">Password</label>

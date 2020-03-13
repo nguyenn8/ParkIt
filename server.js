@@ -10,6 +10,12 @@ var logindata = require("./loginData");
 
 var titleArray = [];
 
+//Custom status codes
+//460: Username taken
+//461: Password and Confirm Password dont match
+//462: One or more fields are not filled
+//463: No request body
+
 app.engine('handlebars', exphbs({
   defaultLayout: 'main',
   partialsDir  : [

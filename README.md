@@ -1,7 +1,7 @@
 # CS361_Park_it
 To use the server, follow these steps (send me a discord message if you have any questions)
 - Step 0: Download/Clone the repository
-- Step 1: 
+- Step 1: cd ParkIt/
 - Step 2: run "npm install"
 - Step 3:run "npm start"
 - Step 4: On your prefered browser, visit 'localhost:50505' (can be copied into url)
